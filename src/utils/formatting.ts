@@ -1,4 +1,4 @@
-import { camelCase, pascalCase, paramCase } from 'change-case'
+import { camelCase as toCamelCase, pascalCase as toPascalCase, paramCase as toParamCase } from 'change-case'
 import { EntityNameFormats } from '../types'
 
 const pluralize = require('pluralize')
@@ -10,19 +10,17 @@ const pluralize = require('pluralize')
  * @returns Object with all variations of the entity name
  */
 export function formatEntityName(entityName: string): EntityNameFormats {
-	const kebabCase = paramCase(entityName)
-
-	const camelCaseEntity = camelCase(kebabCase)
-	const pascalCaseEntity = pascalCase(kebabCase)
-
+	const kebabCase = toParamCase(entityName)
+	const camelCase = toCamelCase(kebabCase)
+	const pascalCase = toPascalCase(kebabCase)
 	const pluralKebabCase = pluralize(kebabCase)
-	const pluralCamelCase = pluralize(camelCaseEntity)
-	const pluralPascalCase = pluralize(pascalCaseEntity)
+	const pluralCamelCase = pluralize(camelCase)
+	const pluralPascalCase = pluralize(pascalCase)
 
 	return {
 		kebabCase,
-		camelCase: camelCaseEntity,
-		pascalCase: pascalCaseEntity,
+		camelCase,
+		pascalCase,
 		pluralKebabCase,
 		pluralCamelCase,
 		pluralPascalCase,
