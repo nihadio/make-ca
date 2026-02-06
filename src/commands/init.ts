@@ -3,6 +3,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const ora = require('ora')
 import { isProjectInitialized, initializeProjectStructure } from '../utils/filesystem'
+import { logger } from '../utils/logger'
 
 /**
  * Handler for the 'init' command
@@ -24,7 +25,7 @@ export async function init(targetPath?: string): Promise<void> {
 		} catch (error) {
 			spinner.fail(chalk.red(`Failed to create directory: ${projectPath}`))
 			if (error instanceof Error) {
-				console.error(chalk.red(error.message))
+				logger.error(error.message)
 			}
 			process.exit(1)
 		}
@@ -39,7 +40,7 @@ export async function init(targetPath?: string): Promise<void> {
 		// Check if project is already initialized
 		if (isProjectInitialized(projectPath)) {
 			spinner.warn(chalk.yellow('Project is already initialized!'))
-			console.log('You can now use ' + chalk.blue('make-ca generate <entity>') + ' to generate entities.')
+			logger.command('You can now use', 'make-ca generate <entity>')
 			return
 		}
 
@@ -48,8 +49,8 @@ export async function init(targetPath?: string): Promise<void> {
 		// Initialize project structure
 		initializeProjectStructure(projectPath)
 
-		console.log('\n' + chalk.green('✓') + ' Project initialized successfully!')
-		console.log('\nYou can now use ' + chalk.blue('make-ca generate <entity>') + ' to generate entities.')
+		logger.success('Project initialized successfully!')
+		logger.command('\nYou can now use', 'make-ca generate <entity>')
 	} catch (error) {
 		if (error instanceof Error) {
 			spinner.fail(chalk.red(`Error initializing project: ${error.message}`))

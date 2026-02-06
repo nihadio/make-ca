@@ -2,6 +2,7 @@ import path from 'path'
 import { formatEntityName } from '../utils/formatting'
 import { isProjectInitialized, createEntityDirectories, renderTemplate } from '../utils/filesystem'
 import { GenerateOptions } from 'src/types'
+import { logger } from '../utils/logger'
 
 const ora = require('ora')
 const chalk = require('chalk')
@@ -23,7 +24,7 @@ export async function generate(entityName: string, options: GenerateOptions): Pr
 		// Check if project is initialized
 		if (!isProjectInitialized(projectPath)) {
 			spinner.fail(chalk.red(`Project is not initialized in ${projectPath}!`))
-			console.log('Run ' + chalk.blue('make-ca init') + ' first to initialize the project.')
+			logger.command('Run', 'make-ca init')
 			process.exit(1)
 		}
 
@@ -311,12 +312,12 @@ export async function generate(entityName: string, options: GenerateOptions): Pr
 			}
 		}
 
-		console.log('\n' + chalk.green('✓') + ` Entity '${entityName}' generated successfully!`)
+		logger.success(`Entity '${entityName}' generated successfully!`)
 	} catch (error) {
 		if (error instanceof Error) {
-			console.error(chalk.red(`Error generating entity: ${error.message}`))
+			logger.error(`Error generating entity: ${error.message}`)
 		} else {
-			console.error(chalk.red('An unknown error occurred during generation'))
+			logger.error('An unknown error occurred during generation')
 		}
 		process.exit(1)
 	}

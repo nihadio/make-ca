@@ -6,6 +6,7 @@ import { init } from './commands/init'
 import { generate } from './commands/generate'
 import { validateEntityName } from './utils/validation'
 import { name, version, description } from '../package.json'
+import { logger } from './utils/logger'
 
 const program = new Command()
 
@@ -39,7 +40,7 @@ program
 			generate(entityName, options)
 		} catch (error) {
 			if (error instanceof Error) {
-				console.error(chalk.red(`Error: ${error.message}`))
+				logger.error(`Error: ${error.message}`)
 				process.exit(1)
 			}
 		}
@@ -47,8 +48,8 @@ program
 
 // Handle unknown commands
 program.on('command:*', () => {
-	console.error(chalk.red(`Invalid command: ${program.args.join(' ')}`))
-	console.log(`See ${chalk.blue('--help')} for a list of available commands.`)
+	logger.error(`Invalid command: ${program.args.join(' ')}`)
+	logger.log(`See ${chalk.blue('--help')} for a list of available commands.`)
 	process.exit(1)
 })
 
