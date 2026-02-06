@@ -27,7 +27,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/nihad-jabrayilzade/make-ca.git"
+		"url": "git+https://github.com/nihadio/make-ca.git"
 	},
 	"keywords": [
 		"nestjs",
